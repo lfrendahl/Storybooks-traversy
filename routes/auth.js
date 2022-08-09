@@ -16,11 +16,14 @@ passport.authenticate('google', { failureRedirect: '/' }),
   }
 )
 
-//@desc    Logout user 
-//@route   GET /auth/logout
-router.get('/logout', (req, res) => {
-    req.logout()
-    res.redirect('/')
+//@desc    **Logout user 
+//@route    /auth/logout
+//*****Current version of Passport requires logout function to be async
+router.get('/logout', (req, res, next) => {
+    req.logout(function(err) {
+      if (err) {return next(err)}
+      res.redirect('/')
+    })
 })
 
 
